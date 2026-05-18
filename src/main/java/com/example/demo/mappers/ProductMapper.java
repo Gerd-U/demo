@@ -61,7 +61,7 @@ public class ProductMapper {
         ProductRequestDto productDto = new ProductRequestDto();
         productDto.setName(product.name());
         productDto.setDescription(product.description());
-        productDto.setName(product.name());
+        productDto.setPrice(product.price());
 
         return productDto;
     }

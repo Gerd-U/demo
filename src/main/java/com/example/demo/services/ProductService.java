@@ -23,7 +23,7 @@ public class ProductService implements IProductService {
 
     @Override
     public Product addProduct(ProductRequestDto productDto) {
-        
+
         var product = Product
                 .builder()
                 .name(productDto.getName())
@@ -31,7 +31,20 @@ public class ProductService implements IProductService {
                 .price(productDto.getPrice())
                 .resourceId(UUID.randomUUID())
                 .build();
-                
+
         return productRepository.addProduct(product);
     }
+
+    @Override
+    public Product updateProduct(UUID resourceId, ProductRequestDto productDto) {
+        var product = productRepository.findByResourceId(resourceId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        product.setName(productDto.getName());
+        product.setDescription(productDto.getDescription());
+        product.setPrice(productDto.getPrice());
+
+        return productRepository.updateProduct(product);
+    }
+
 }
