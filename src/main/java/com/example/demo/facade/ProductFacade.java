@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dtos.ProductDto;
+import com.example.demo.dtos.ProductRequestDto;
 import com.example.demo.mappers.ProductMapper;
 import com.example.demo.services.IProductService;
 
@@ -21,5 +23,12 @@ public class ProductFacade implements IProductFacade {
     @Override
     public List<ProductDto> getAll() {
         return productMapper.toProductDtoList(productService.getAll());
+    }
+
+    @Override
+    @Transactional
+    public ProductDto addProduct(ProductRequestDto productDto) {
+       var entity = productService.addProduct(productDto);
+       return productMapper.toProductDto(entity);
     }
 }

@@ -13,4 +13,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     default List<Product> getAll() {
         return findAll();
     }
+
+    default Product addProduct(Product product){
+        return save(product);
+    }
 }
