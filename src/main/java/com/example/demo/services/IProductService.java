@@ -12,4 +12,5 @@ public interface IProductService {
     public Product addProduct (ProductRequestDto productDto);
     Product updateProduct(UUID resourceId, ProductRequestDto productDto);
     Product getByResourceId(UUID resourceId);
+    void removeProduct(UUID resourceID);
 }

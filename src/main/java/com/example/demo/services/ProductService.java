@@ -52,5 +52,13 @@ public class ProductService implements IProductService {
     return productRepository.getByResourceId(resourceId);
 }
 
+    @Override
+    public void removeProduct(UUID resourceID) {
+        var product = productRepository.findByResourceId(resourceID)
+                    .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        productRepository.delete(product);
+    }
+
 
 }
