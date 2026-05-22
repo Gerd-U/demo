@@ -11,4 +11,5 @@ public interface IProductFacade {
     List<ProductDto> getAll();
     ProductDto addProduct(ProductRequestDto productDto);
     ProductDto updateProduct(UUID resourceId, ProductRequestDto productDto);
+     ProductDto getByResourceId(UUID resourceId);
 }

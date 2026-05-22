@@ -47,4 +47,10 @@ public class ProductService implements IProductService {
         return productRepository.updateProduct(product);
     }
 
+    @Override
+    public Product getByResourceId(UUID resourceId) {
+    return productRepository.getByResourceId(resourceId);
+}
+
+
 }

@@ -51,4 +51,9 @@ public class ProductController {
         return productFacade.updateProduct(resourceId, dto);
     }
 
+    @GetMapping(path = "/{resourceId}")
+    public ProductDto findById(@PathVariable("resourceId") UUID resourceId) {
+        return productFacade.getByResourceId(resourceId);
+    }
+
 }
