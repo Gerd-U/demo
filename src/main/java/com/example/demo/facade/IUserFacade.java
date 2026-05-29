@@ -16,7 +16,6 @@ UserDto updateUser(UUID resouceId, UserRequestDto userDto);
 
 UserDto getByResourceId(UUID resourceId);
 
-void removeUser(Long id);
-
-public UserDto updateUser(UUID resourceId, Object dto);
+void removeUser(UUID resourceId);
 }
+
