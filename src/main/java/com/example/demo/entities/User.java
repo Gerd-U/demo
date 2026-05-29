@@ -1,5 +1,10 @@
 package com.example.demo.entities;
 
+import java.util.UUID;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,23 +17,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "user")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
+@Entity
+@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    @Column(name = "age", nullable = false)
-    private Integer age;
+    @Column(name = "resource_id", nullable= false, unique = true,length = 36)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID resourceId;
 }

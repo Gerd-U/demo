@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.example.demo.dtos.UserRequestDto;
 import com.example.demo.entities.User;
@@ -8,8 +9,12 @@ import com.example.demo.entities.User;
 public interface IUserService {
 
     List<User> getAll();
+    
     User addUser(UserRequestDto userDto);
-    User updateUser(Long id, UserRequestDto userDto);
-    User getById(Long id);
-    void removeUser(Long id);
+
+    User updateUser(UUID resourceId, UserRequestDto userDto);
+
+    User getByResourceId(UUID resourceId);
+
+    void removeUser(UUID resourceId);
 }

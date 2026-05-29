@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,48 +14,47 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.example.demo.dtos.UserDto;
 import com.example.demo.facade.IUserFacade;
 import com.example.demo.mappers.UserMapper;
 import com.example.demo.models.UserRequestModel;
+import com.example.demo.models.UserResponseModel;
 
-import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     @Autowired
-    private IUserFacade userFacade;
+    private IUserFacade userFacade; 
 
     @Autowired
-    private UserMapper userMapper;
+    private UserMapper userMapper; 
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> findAll() {
-        return ResponseEntity.ok(userFacade.getAll());
+    public ResponseEntity<List<UserResponseModel>> findAll() {
+        return ResponseEntity.ok(
+            userMapper.toUserResponseModelList(userFacade.getAll())
+        );
     }
 
     @PostMapping
-    public UserDto save(@Valid @RequestBody UserRequestModel userRequestModel) {
+    public UserDto save(@RequestBody UserRequestModel userRequestModel) { 
         var dto = userMapper.toUserRequestDto(userRequestModel);
         return userFacade.addUser(dto);
     }
 
-    @PutMapping(path = "/{id}")
-    public UserDto update(@PathVariable("id") Long id,
-            @Valid @RequestBody UserRequestModel userRequestModel) {
+    @PutMapping(path = "/{resourceId}")
+    public UserDto update(@PathVariable("resourceId") UUID resourceId,
+                          @RequestBody UserRequestModel userRequestModel) {  
         var dto = userMapper.toUserRequestDto(userRequestModel);
-        return userFacade.updateUser(id, dto);
+        return userFacade.updateUser(resourceId, dto);
     }
 
-    @GetMapping(path = "/{id}")
-    public UserDto findById(@PathVariable("id") Long id) {
-        return userFacade.getById(id);
-    }
-
-    @DeleteMapping(path = "/{id}")
-    public void remove(@PathVariable("id") Long id) {
-        userFacade.removeUser(id);
+    @DeleteMapping(path = "/{resourceId}")
+    public void remove(@PathVariable("resourceId") UUID resourceId) {
+        userFacade.removeUser(resourceId);
     }
 }

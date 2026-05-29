@@ -11,14 +11,15 @@ import com.example.demo.entities.User;
 import com.example.demo.models.UserRequestModel;
 import com.example.demo.models.UserResponseModel;
 
+
 @Component
 public class UserMapper {
 
-    public UserDto toUserDto(User user) {
+    public UserDto toUserDto(User user) {  // ← retornaba User en vez de UserDto
         if (user == null) {
             return null;
         }
-        return new UserDto(user.getName(), user.getAge());
+        return new UserDto(user.getResourceId(), user.getName());
     }
 
     public List<UserDto> toUserDtoList(List<User> users) {
@@ -26,33 +27,32 @@ public class UserMapper {
             return null;
         }
         return users.stream()
-                .map(this::toUserDto)
-                .collect(Collectors.toList());
+            .map(this::toUserDto)
+            .collect(Collectors.toList());
     }
 
-    public UserResponseModel toUserResponseModel(UserDto userDto, Long id) {
+    public UserResponseModel toUserResponseModel(UserDto userDto) {
         if (userDto == null) {
             return null;
         }
-        return new UserResponseModel(id, userDto.name(), userDto.age());
+        return new UserResponseModel(userDto.resourceID(), userDto.name());
     }
 
-    public List<UserResponseModel> toUserResponseModelList(List<User> users) {
-        if (users == null) {
+    public List<UserResponseModel> toUserResponseModelList(List<UserDto> userDtos) {
+        if (userDtos == null) {
             return null;
         }
-        return users.stream()
-                .map(u -> new UserResponseModel(u.getId(), u.getName(), u.getAge()))
-                .collect(Collectors.toList());
+        return userDtos.stream()
+            .map(this::toUserResponseModel)
+            .collect(Collectors.toList());
     }
 
-    public UserRequestDto toUserRequestDto(UserRequestModel model) {
-        if (model == null) {
+    public UserRequestDto toUserRequestDto(UserRequestModel user) {
+        if (user == null) {
             return null;
         }
-        UserRequestDto dto = new UserRequestDto();
-        dto.setName(model.name());
-        dto.setAge(model.age());
-        return dto;
+        UserRequestDto userDto = new UserRequestDto(); 
+        userDto.setName(user.name());
+        return userDto;
     }
 }

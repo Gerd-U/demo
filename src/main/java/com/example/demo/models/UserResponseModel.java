@@ -1,7 +1,8 @@
 package com.example.demo.models;
 
-public record UserResponseModel(
-        Long id,
-        String name,
-        Integer age) {
+
+import java.util.UUID;
+
+public record UserResponseModel(UUID resourceID,String name) {
+
 }

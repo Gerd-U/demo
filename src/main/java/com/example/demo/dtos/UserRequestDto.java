@@ -9,7 +9,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
+
 public class UserRequestDto {
-    private String name;
-    private Integer age;
+
+//atributos    
+private String name;
+
+
 }
