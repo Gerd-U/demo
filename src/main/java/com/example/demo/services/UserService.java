@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.Exceptions.UserNotFoundException;
 import com.example.demo.dtos.UserRequestDto;
 import com.example.demo.entities.User;
 import com.example.demo.repositories.UserRepository;
@@ -22,19 +23,17 @@ public class UserService implements IUserService {
 
     @Override
     public User addUser(UserRequestDto userDto) {
-        var user = User
-                .builder()
+        var user = User.builder()
                 .name(userDto.getName())
                 .age(userDto.getAge())
                 .build();
-
         return userRepository.addUser(user);
     }
 
     @Override
     public User updateUser(Long id, UserRequestDto userDto) {
         var user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
 
         user.setName(userDto.getName());
         user.setAge(userDto.getAge());
@@ -44,14 +43,14 @@ public class UserService implements IUserService {
 
     @Override
     public User getById(Long id) {
-        return userRepository.getById(id);
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
     }
 
     @Override
     public void removeUser(Long id) {
         var user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
         userRepository.delete(user);
     }
 }
