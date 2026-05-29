@@ -30,6 +30,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         return this.findByResourceId(resourceId).orElse(null);
     }
 
-    void deleteByResourceId(UUID resourceId);
-
 }

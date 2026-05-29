@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.Exceptions.ProductNotFoundException;
 import com.example.demo.dtos.ProductRequestDto;
 import com.example.demo.entities.Product;
 import com.example.demo.repositories.ProductRepository;
@@ -49,16 +50,17 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getByResourceId(UUID resourceId) {
-    return productRepository.getByResourceId(resourceId);
-}
+        return productRepository.findByResourceId(resourceId)
+                .orElseThrow(() -> new ProductNotFoundException(
+                "Producto no encontrado"));
+    }
 
     @Override
     public void removeProduct(UUID resourceID) {
         var product = productRepository.findByResourceId(resourceID)
-                    .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
         productRepository.delete(product);
     }
-
 
 }
