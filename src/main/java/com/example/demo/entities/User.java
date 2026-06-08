@@ -24,17 +24,17 @@ import lombok.Setter;
 @Builder
 
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    @Column(name = "resource_id", nullable= false, unique = true,length = 36)
+    @Column(name = "resourceId", nullable= false, unique = true,length = 36)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID resourceId;
 }
